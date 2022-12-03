@@ -50,7 +50,7 @@ class MyApp extends StatelessWidget {
           ],
         ),
         body: const MyHomePage(          
-          title: "Courses",
+          title: "Course",
         ),
       ),
     ); //const MyHomePage(title: 'Flutter Demo Home Page'),
