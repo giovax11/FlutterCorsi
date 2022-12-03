@@ -1,4 +1,4 @@
-import 'Courses.dart';
+import '../Aggregate/Courses.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 

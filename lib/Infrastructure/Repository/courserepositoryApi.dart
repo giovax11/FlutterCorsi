@@ -2,8 +2,8 @@
 import 'package:http/http.dart'as http;
 import 'dart:convert';
 
-import 'package:flutterproject/Courses.dart';
-import 'package:flutterproject/courseIrepository.dart';
+import 'package:flutterproject/Domain/Aggregate/Courses.dart';
+import 'package:flutterproject/Domain/Repository/courseIrepository.dart';
 
 class RepositoryApi implements ICourseRepository {
   final api;
