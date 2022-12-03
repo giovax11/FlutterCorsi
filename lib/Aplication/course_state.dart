@@ -10,7 +10,7 @@ abstract class CourseState extends Equatable {
   List<Object?> get props => [];
 }
 
-class DoctorInitial extends CourseState {}
+class CourseInitial extends CourseState {}
 
 class CourseLoading extends CourseState {}
 
