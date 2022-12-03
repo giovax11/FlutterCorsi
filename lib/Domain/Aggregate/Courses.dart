@@ -1,7 +1,7 @@
 //import 'dart:ffi';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-import 'lesson.dart';
+import '../entity/lesson.dart';
 
 
 import 'dart:convert';
