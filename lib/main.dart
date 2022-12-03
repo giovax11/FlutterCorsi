@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutterproject/Infrastructure/Repository/controllerCourses.dart';
-import 'package:flutterproject/description_place.dart';
 import 'package:http/http.dart';
 import 'Infrastructure/View/courses_list_page.dart';
-import 'review.dart';
-import 'package:flutterproject/Recipe.dart';
 import 'Domain/Aggregate/Courses.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutterproject/Domain/Repository/courseIrepository.dart';
