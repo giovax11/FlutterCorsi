@@ -1,7 +1,7 @@
-import 'package:flutterproject/Courses.dart';
+import 'package:flutterproject/Domain/Aggregate/Courses.dart';
 
-import 'Courses.dart';
-import 'package:flutterproject/courseIrepository.dart';
+import '../../Domain/Aggregate/Courses.dart';
+import 'package:flutterproject/Domain/Repository/courseIrepository.dart';
 import 'courserepositoryApi.dart';
 
 class CourseController {
