@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutterproject/Infrastructure/Repository/controllerCourses.dart';
-import 'package:flutterproject/description_place.dart';
 import 'package:http/http.dart';
+import 'Aplication/course_bloc.dart';
 import 'Infrastructure/View/courses_list_page.dart';
-import 'review.dart';
-import 'package:flutterproject/Recipe.dart';
 import 'Domain/Aggregate/Courses.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutterproject/Domain/Repository/courseIrepository.dart';
 import 'dart:convert';
 import 'Infrastructure/Repository/courserepositoryApi.dart';
+import 'package:bloc/bloc.dart';
 
 void main() {
   runApp(MyApp());
@@ -42,15 +42,18 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: Scaffold(
-        appBar: AppBar(
-          leading: title,
-          actions: [
-            appLogo,
-          ],
-        ),
-        body: const MyHomePage(          
-          title: "Course",
+      home: BlocProvider<CourseBloc>(
+        create: (context) => CourseBloc(),
+        child: Scaffold(
+          appBar: AppBar(
+            leading: title,
+            actions: [
+              appLogo,
+            ],
+          ),
+          body: const MyHomePage(
+            title: "Courses",
+          ),
         ),
       ),
     ); //const MyHomePage(title: 'Flutter Demo Home Page'),
