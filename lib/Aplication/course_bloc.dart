@@ -13,7 +13,7 @@ class CourseBloc extends Bloc<CourseEvent, CourseState> {
         emit(CourseLoading());
         final mList = await apiRepository.getAllCourse();
         emit(CourseLoaded(mList));
-      } on NetworkError {
+      } catch(_) {
         emit(CourseError("Fallo en la busqueda de datos"));
       }
     });

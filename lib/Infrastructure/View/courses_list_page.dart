@@ -52,11 +52,11 @@ class _MyHomePageState extends State<MyHomePage> {
                   if (state is CourseInitial) {
                     return buildLoading();
                   } else if (state is CourseLoading) {
-                    return buildLoading2();
+                    return buildLoading();
                   } else if (state is CourseLoaded) {
                     return buildListCourse(state.courseModel!);
                   } else if (state is CourseError) {
-                    return Container();
+                    return buildLoading3();
                   } else {
                     return Container();
                   }
@@ -81,6 +81,9 @@ Widget buildListCourse(List<Course> courses) {
 Widget buildLoading() => const Center(child: CircularProgressIndicator());
 Widget buildLoading2() => const Center(
       child: Text("loading"),
+    );
+Widget buildLoading3() => const Center(
+      child: Text("no internet"),
     );
 Widget buildRecipeCard(Course course) {
   return Card(
