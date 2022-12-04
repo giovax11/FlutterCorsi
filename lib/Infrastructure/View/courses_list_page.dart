@@ -1,6 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
+import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../Aplication/course_event.dart';
+import '../../Aplication/course_bloc.dart';
+import '../../Aplication/course_state.dart';
 import '../../Domain/Aggregate/Courses.dart';
 import '../Repository/controllerCourses.dart';
 
@@ -14,23 +17,14 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  final CourseController controller=CourseController();
+  final CourseController controller = CourseController();
+  final CourseBloc newsBloc = CourseBloc();
 
-
-  /*Future <List<Course>> fetchCourses() async {
-    final response =
-    await http.get(Uri.parse('https://6383f3913fa7acb14fea74f1.mockapi.io/api/courses'));
-
-    if (response.statusCode == 200) {
-      final parsed = json.decode(response.body).cast<Map<String, dynamic>>();
-
-      return parsed.map<Course>((json) => Course.fromJson(json)).toList();
-    } else {
-      throw Exception('Failed to load');
-    }
-  }*/
-  
-  
+  @override
+  void initState() {
+    newsBloc.add(GetCourseList());
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -41,23 +35,34 @@ class _MyHomePageState extends State<MyHomePage> {
           title: Text('CURSOS'),
         ),
         body: Center(
-          child: FutureBuilder <List<Course>>(
-            future: controller.getAllCourse(),
-            builder: (context, snapshot) {
-              if (snapshot.hasData) {
-                return
-                  ListView.builder(
-                      itemCount: snapshot.data?.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        return  buildRecipeCard(snapshot.data![index]);
-                      }
+          child: BlocProvider(
+            create: (context) => newsBloc,
+            child: BlocListener<CourseBloc, CourseState>(
+              listener: (context, state) {
+                if (state is CourseError) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text(state.message!),
+                    ),
                   );
-              } else if (snapshot.hasError) {
-                return Text("${snapshot.error}");
-              }
-              // By default show a loading spinner.
-              return const CircularProgressIndicator();
-            },
+                }
+              },
+              child: BlocBuilder<CourseBloc, CourseState>(
+                builder: (context, state) {
+                  if (state is CourseInitial) {
+                    return buildLoading();
+                  } else if (state is CourseLoading) {
+                    return buildLoading();
+                  } else if (state is CourseLoaded) {
+                    return buildListCourse(state.courseModel!);
+                  } else if (state is CourseError) {
+                    return buildLoading();
+                  } else {
+                    return Container();
+                  }
+                },
+              ),
+            ),
           ),
         ),
       ),
@@ -65,36 +70,49 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 }
 
+Widget buildListCourse(List<Course> courses) {
+  return ListView.builder(
+      itemCount: courses.length,
+      itemBuilder: ((BuildContext context, int index) {
+        return buildRecipeCard(courses[index]);
+      }));
+}
 
-  Widget buildRecipeCard(Course course) {
-    return Card(
-      // 1
-      elevation: 2.0,
-      // 2
-      shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(10.0)),
-      // 3
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        // 4
-        child: Column(
-          children: <Widget>[
-            Image.network(course.photo),
-            // 5
-            const SizedBox(
-              height: 14.0,
-            ),
-            // 6
-            Text(
-              course.name,
-              style: const TextStyle(
-                fontSize: 20.0,
-                fontWeight: FontWeight.w700,
-                fontFamily: 'Palatino',
-              ),
-            )
-          ],
-        ),
-      ),
+Widget buildLoading() => const Center(child: CircularProgressIndicator());
+Widget buildLoading2() => const Center(
+      child: Text("loading"),
     );
-  }
+Widget buildLoading3() => const Center(
+      child: Text("no internet"),
+    );
+Widget buildRecipeCard(Course course) {
+  return Card(
+    // 1
+    elevation: 2.0,
+    // 2
+    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
+    // 3
+    child: Padding(
+      padding: const EdgeInsets.all(16.0),
+      // 4
+      child: Column(
+        children: <Widget>[
+          Image.network(course.photo),
+          // 5
+          const SizedBox(
+            height: 14.0,
+          ),
+          // 6
+          Text(
+            course.name,
+            style: const TextStyle(
+              fontSize: 20.0,
+              fontWeight: FontWeight.w700,
+              fontFamily: 'Palatino',
+            ),
+          )
+        ],
+      ),
+    ),
+  );
+}
