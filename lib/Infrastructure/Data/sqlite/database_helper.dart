@@ -47,4 +47,42 @@ class DatabaseHelper {
       )
     ''');
   }
+
+  // this opens the database (and creates it if it doesn't exist)
+  // 1
+  Future<Database> _initDatabase() async {
+    // 2
+    final documentsDirectory = await getApplicationDocumentsDirectory();
+    final path = join(documentsDirectory.path, _databaseName);
+    // 4
+    // TODO: Remember to turn off debugging before deploying app to store(s).
+    Sqflite.setDebugModeOn(true);
+    // 5
+    return openDatabase(path, version: _databaseVersion, onCreate: _onCreate);
+  }
+
+  Future<Database> get database async {
+    // 2
+    if (_database != null) return _database!;
+    // Use this object to prevent concurrent access to data
+    // 3
+    await lock.synchronized(() async {
+      // lazily instantiate the db the first time it is accessed
+      // 4
+      if (_database == null) {
+        // 5
+        _database = await _initDatabase();
+        // 6
+        _streamDatabase = BriteDatabase(_database!);
+      }
+    });
+    return _database!;
+  }
+
+  // 1
+  Future<BriteDatabase> get streamDatabase async {
+    // 2
+    await database;
+    return _streamDatabase;
+  }
 }
