@@ -135,4 +135,26 @@ class DatabaseHelper {
     final db = await instance.streamDatabase;
     yield* db.createQuery(lessonTable).mapToList((row) => Lesson.fromJson(row));
   }
+
+  Future<Course> findCourseById(int id) async {
+    final db = await instance.streamDatabase;
+    final courseList = await db.query(courseTable, where: 'id = $id');
+    final courses = parseCourse(courseList);
+    return courses.first;
+  }
+
+  Future<List<Lesson>> findAllLessons() async {
+    final db = await instance.streamDatabase;
+    final lessonList = await db.query(lessonTable);
+    final lessons = parseLessons(lessonList);
+    return lessons;
+  }
+
+  Future<List<Lesson>> findCourseLessons(int recipeId) async {
+    final db = await instance.streamDatabase;
+    final lessonList =
+        await db.query(lessonTable, where: 'courseId = $courseId');
+    final lessons = parseLessons(lessonList);
+    return lessons;
+  }
 }
