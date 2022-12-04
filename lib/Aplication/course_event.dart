@@ -7,5 +7,5 @@ abstract class CourseEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class GetDoctorList extends CourseEvent { 
+class GetCourseList extends CourseEvent { 
 }

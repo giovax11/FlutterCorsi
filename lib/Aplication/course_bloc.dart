@@ -7,7 +7,7 @@ class CourseBloc extends Bloc<CourseEvent, CourseState> {
   CourseBloc() : super(CourseInitial()) {
     final CourseController apiRepository = CourseController();
 
-    on<GetDoctorList>((event, emit) async {
+    on<GetCourseList>((event, emit) async {
       try {
         
         emit(CourseLoading());
