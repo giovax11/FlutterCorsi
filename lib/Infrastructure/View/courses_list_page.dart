@@ -35,30 +35,33 @@ class _MyHomePageState extends State<MyHomePage> {
           title: Text('CURSOS'),
         ),
         body: Center(
-          child: BlocListener<CourseBloc, CourseState>(
-            listener: (context, state) {
-              if (state is CourseError) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  content: Text(state.message!),
-                ),
-              );
-            }
-            },
-            child: BlocBuilder<CourseBloc, CourseState>(
-              builder: (context, state) {
-                if (state is CourseInitial) {
-                  return buildLoading();
-                } else if (state is CourseLoading) {
-                  return buildLoading();
-                } else if (state is CourseLoaded) {
-                  return buildListCourse(state.courseModel!);
-                } else if (state is CourseError) {
-                  return Container();
-                } else {
-                  return Container();
+          child: BlocProvider(
+            create: (context) => newsBloc,
+            child: BlocListener<CourseBloc, CourseState>(
+              listener: (context, state) {
+                if (state is CourseError) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text(state.message!),
+                    ),
+                  );
                 }
               },
+              child: BlocBuilder<CourseBloc, CourseState>(
+                builder: (context, state) {
+                  if (state is CourseInitial) {
+                    return buildLoading();
+                  } else if (state is CourseLoading) {
+                    return buildLoading2();
+                  } else if (state is CourseLoaded) {
+                    return buildListCourse(state.courseModel!);
+                  } else if (state is CourseError) {
+                    return Container();
+                  } else {
+                    return Container();
+                  }
+                },
+              ),
             ),
           ),
         ),
@@ -76,7 +79,9 @@ Widget buildListCourse(List<Course> courses) {
 }
 
 Widget buildLoading() => const Center(child: CircularProgressIndicator());
-
+Widget buildLoading2() => const Center(
+      child: Text("loading"),
+    );
 Widget buildRecipeCard(Course course) {
   return Card(
     // 1

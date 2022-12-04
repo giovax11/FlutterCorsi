@@ -11,11 +11,8 @@ class CourseBloc extends Bloc<CourseEvent, CourseState> {
       try {
         
         emit(CourseLoading());
-        final mList =  await apiRepository.getAllCourse();
+        final mList = await apiRepository.getAllCourse();
         emit(CourseLoaded(mList));
-        //if (mList?.error != null) {
-        //  emit(DoctorError(mList?.error));
-        //}
       } on NetworkError {
         emit(CourseError("Fallo en la busqueda de datos"));
       }
