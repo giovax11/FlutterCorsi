@@ -157,4 +157,21 @@ class DatabaseHelper {
     final lessons = parseLessons(lessonList);
     return lessons;
   }
+
+  // 1
+  Future<int> insert(String table, Map<String, dynamic> row) async {
+    final db = await instance.streamDatabase;
+    // 2
+    return db.insert(table, row);
+  }
+
+  Future<int> insertRecipe(Course course) {
+    // 3
+    return insert(courseTable, course.toJson());
+  }
+
+  Future<int> insertIngredient(Lesson lesson) {
+    // 4
+    return insert(lessonTable, lesson.toJson());
+  }
 }
