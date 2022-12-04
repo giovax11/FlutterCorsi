@@ -42,9 +42,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: BlocProvider<CourseBloc>(
-        create: (context) => CourseBloc(),
-        child: Scaffold(
+      home: Scaffold(
           appBar: AppBar(
             leading: title,
             actions: [
@@ -55,7 +53,7 @@ class MyApp extends StatelessWidget {
             title: "Courses",
           ),
         ),
-      ),
+      
     ); //const MyHomePage(title: 'Flutter Demo Home Page'),
   }
 }
