@@ -165,13 +165,54 @@ class DatabaseHelper {
     return db.insert(table, row);
   }
 
-  Future<int> insertRecipe(Course course) {
+  Future<int> insertCourse(Course course) {
     // 3
     return insert(courseTable, course.toJson());
   }
 
-  Future<int> insertIngredient(Lesson lesson) {
+  Future<int> insertLesson(Lesson lesson) {
     // 4
     return insert(lessonTable, lesson.toJson());
   }
+
+  // 1
+  Future<int> _delete(String table, String columnId, int id) async {
+    final db = await instance.streamDatabase;
+    // 2
+    return db.delete(table, where: '$columnId = ?', whereArgs: [id]);
+  }
+
+  Future<int> deleteCourse(Course course) async {
+    // 3
+    // ignore: unnecessary_null_comparison
+    if (course.id != null) {
+      return _delete(courseTable, courseId, int.parse(course.id));
+    } else {
+      return Future.value(-1);
+    }
+  }
+
+  /*Future<int> deleteIngredient(Lesson lesson) async {
+    if (lesson.id != null) {
+      return _delete(ingredientTable, ingredientId, ingredient.id!);
+    } else {
+      return Future.value(-1);
+    }
+  }
+
+  Future<void> deleteIngredients(List<Ingredient> ingredients) {
+    // 4
+    ingredients.forEach((ingredient) {
+      if (ingredient.id != null) {
+        _delete(ingredientTable, ingredientId, ingredient.id!);
+      }
+    });
+    return Future.value();
+  }
+
+  Future<int> deleteRecipeIngredients(int id) async {
+    final db = await instance.streamDatabase;
+    // 5
+    return db.delete(ingredientTable, where: '$recipeId = ?', whereArgs: [id]);
+  }*/
 }
