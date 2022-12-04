@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:moor_flutter/moor_flutter.dart';
 
 import '../../../Domain/Aggregate/Courses.dart';
@@ -76,4 +78,21 @@ class LessonDao extends DatabaseAccessor<CourseDatabase> with _$LessonDaoMixin {
   // 6
   Future deleteLesson(int id) => Future.value(
       (delete(moorLesson)..where((tbl) => tbl.id.equals(id))).go());
+}
+
+// Conversion Methods
+Course moorCourseToCourse(MoorCourseData course) {
+  return Course(
+      id: course.id.toString(),
+      name: course.name,
+      description: course.description,
+      photo: course.photo,
+      lesson: List.empty());
+}
+
+Insertable<MoorCourseData> courseToInsertableMoorCourse(Course course) {
+  return MoorCourseCompanion.insert(
+      name: course.name ?? '',
+      description: course.description ?? '',
+      photo: course.photo ?? '');
 }
