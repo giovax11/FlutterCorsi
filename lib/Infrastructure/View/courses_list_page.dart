@@ -35,20 +35,31 @@ class _MyHomePageState extends State<MyHomePage> {
           title: Text('CURSOS'),
         ),
         body: Center(
-          child: BlocBuilder<CourseBloc, CourseState>(
-            builder: (context, state) {
-              if (state is CourseInitial) {
-                return buildLoading();
-              } else if (state is CourseLoading) {
-                return buildLoading();
-              } else if (state is CourseLoaded) {
-                return buildListCourse(state.courseModel!);
-              } else if (state is CourseError) {
-                return Container();
-              } else {
-                return Container();
-              }
+          child: BlocListener<CourseBloc, CourseState>(
+            listener: (context, state) {
+              if (state is CourseError) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text(state.message!),
+                ),
+              );
+            }
             },
+            child: BlocBuilder<CourseBloc, CourseState>(
+              builder: (context, state) {
+                if (state is CourseInitial) {
+                  return buildLoading();
+                } else if (state is CourseLoading) {
+                  return buildLoading();
+                } else if (state is CourseLoaded) {
+                  return buildListCourse(state.courseModel!);
+                } else if (state is CourseError) {
+                  return Container();
+                } else {
+                  return Container();
+                }
+              },
+            ),
           ),
         ),
       ),
@@ -57,13 +68,11 @@ class _MyHomePageState extends State<MyHomePage> {
 }
 
 Widget buildListCourse(List<Course> courses) {
-  return FutureBuilder<List<Course>>(builder: ((context, snapshot) {
-    return ListView.builder(
-        itemCount: snapshot.data?.length,
-        itemBuilder: ((BuildContext context, int index) {
-          return buildRecipeCard(snapshot.data![index]);
-        }));
-  }));
+  return ListView.builder(
+      itemCount: courses.length,
+      itemBuilder: ((BuildContext context, int index) {
+        return buildRecipeCard(courses[index]);
+      }));
 }
 
 Widget buildLoading() => const Center(child: CircularProgressIndicator());
