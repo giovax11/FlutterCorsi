@@ -5,7 +5,6 @@ import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:flutterproject/Domain/Aggregate/Courses.dart';
 import 'package:flutterproject/Domain/Repository/courseIrepository.dart';
-import 'package:multiple_result/multiple_result.dart';
 
 class RepositoryApi implements ICourseRepository {
   final api;
@@ -28,7 +27,7 @@ class RepositoryApi implements ICourseRepository {
     } catch (e) {
       // catch all exceptions (not just SocketException)
       // 4. return Error here too
-      throw Error(e);
+      throw Error();
     }
 
     //return null;

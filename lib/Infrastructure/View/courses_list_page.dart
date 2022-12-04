@@ -56,7 +56,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   } else if (state is CourseLoaded) {
                     return buildListCourse(state.courseModel!);
                   } else if (state is CourseError) {
-                    return buildLoading3();
+                    return buildLoading();
                   } else {
                     return Container();
                   }
