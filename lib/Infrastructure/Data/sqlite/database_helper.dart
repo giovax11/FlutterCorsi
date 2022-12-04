@@ -1,3 +1,5 @@
+import 'package:flutterproject/Domain/Aggregate/Courses.dart';
+import 'package:flutterproject/Domain/entity/lesson.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path_provider/path_provider.dart';
@@ -84,5 +86,53 @@ class DatabaseHelper {
     // 2
     await database;
     return _streamDatabase;
+  }
+
+  List<Course> parseCourse(List<Map<String, dynamic>> courseList) {
+    final courses = <Course>[];
+    // 1
+    courseList.forEach((courseMap) {
+      // 2
+      final course = Course.fromJson(courseMap);
+      // 3
+      courses.add(course);
+    });
+    // 4
+    return courses;
+  }
+
+  List<Lesson> parseLessons(List<Map<String, dynamic>> lessonList) {
+    final lessons = <Lesson>[];
+    lessonList.forEach((lessonMap) {
+      // 5
+      final lesson = Lesson.fromJson(lessonMap);
+      lessons.add(lesson);
+    });
+    return lessons;
+  }
+
+  Future<List<Course>> findAllRecipes() async {
+    // 1
+    final db = await instance.streamDatabase;
+    // 2
+    final courseList = await db.query(courseTable);
+    // 3
+    final courses = parseCourse(courseList);
+    return courses;
+  }
+
+  Stream<List<Course>> watchAllRecipes() async* {
+    final db = await instance.streamDatabase;
+    // 1
+    yield* db
+        // 2
+        .createQuery(courseTable)
+        // 3
+        .mapToList((row) => Course.fromJson(row));
+  }
+
+  Stream<List<Lesson>> watchAllIngredients() async* {
+    final db = await instance.streamDatabase;
+    yield* db.createQuery(lessonTable).mapToList((row) => Lesson.fromJson(row));
   }
 }
