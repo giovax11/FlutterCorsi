@@ -48,8 +48,32 @@ class CourseDao extends DatabaseAccessor<CourseDatabase> with _$CourseDaoMixin {
   Future<List<MoorCourseData>> findAllCourses() => select(moorCourse).get();
   // 5
   Stream<List<Course>> watchAllCourses() {
-    // TODO: Add watchAllRecipes code here
+    // 1
+    return select(moorCourse)
+        // 2
+        .watch()
+        // 3
+        .map(
+      (rows) {
+        final courses = <Course>[];
+        // 4
+        // ignore: avoid_function_literals_in_foreach_calls
+        rows.forEach(
+          (row) {
+            // 5
+            final course = moorCourseToCourse(row);
+            // 6
+            if (!courses.contains(course)) {
+              course.lesson = <Lesson>[];
+              courses.add(course);
+            }
+          },
+        );
+        return courses;
+      },
+    );
   }
+
   // 6
   Future<List<MoorCourseData>> findCourseById(int id) =>
       (select(moorCourse)..where((tbl) => tbl.id.equals(id))).get();
