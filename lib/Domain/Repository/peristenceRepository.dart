@@ -3,18 +3,20 @@ import 'package:flutterproject/Domain/entity/lesson.dart';
 
 abstract class IPersistenceRepository {
   // 1
-  List<Course> findAllCourses();
+  Future<List<Course>> findAllCourses();
   // 2
-  Course findCourseById(int id);
+  Future<Course> findCourseById(int id);
   // 3
-  List<Lesson> findAllLessons();
+  Future<List<Lesson>> findAllLessons();
+  Stream<List<Course>> watchAllCourses();
+  Stream<List<Lesson>> watchAllLessons();
   // 4
-  List<Lesson> findCourseLessons(int courseId);
+  Future<List<Lesson>> findCourseLessons(int courseId);
 
   // 5
-  int insertCourse(Course course);
+  Future<int> insertCourse(Course course);
   // 6
-  List<int> insertLessons(List<Lesson> ingredients);
+  Future<List<int>> insertLessons(List<Lesson> lessons);
 
   // 7
   void deleteCourse(Course course);
