@@ -34,7 +34,7 @@ class CourseDescriptionView extends StatelessWidget {
         DescriptionContent(this.course.description),
         ActionButton('Empezar Curso'),
         lessons_subtitle,
-        LessonsList(), // Aqui puedo recibir course.lesson
+        LessonsList(this.course), // Aqui puedo recibir course.lesson
       ],
     );
   }
