@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutterproject/Domain/Repository/peristenceRepository.dart';
+import 'package:flutterproject/Infrastructure/Data/moor/moor_repository.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutterproject/Infrastructure/Repository/controllerCourses.dart';
 import 'package:http/http.dart';
+import 'Domain/Repository/memory_repository.dart';
 import 'Aplication/course_bloc.dart';
 import 'Infrastructure/View/courses_list_page.dart';
 import 'Domain/Aggregate/Courses.dart';
@@ -9,14 +12,18 @@ import 'package:http/http.dart' as http;
 import 'package:flutterproject/Domain/Repository/courseIrepository.dart';
 import 'dart:convert';
 import 'Infrastructure/Repository/courserepositoryApi.dart';
+import 'package:provider/provider.dart';
 import 'package:bloc/bloc.dart';
 
-void main() {
-  runApp(MyApp());
+Future<void> main() async {
+  final repository = MoorRepository();
+  await repository.init();
+  runApp(MyApp(repository: repository));
 }
 
 class MyApp extends StatelessWidget {
-  MyApp({super.key});
+  final IPersistenceRepository repository;
+  MyApp({Key? key, required this.repository}) : super(key: key);
 
   Image appLogo = Image(
       image: new ExactAssetImage("assets/CORSI_logo.png"),
@@ -34,15 +41,24 @@ class MyApp extends StatelessWidget {
   );
 
   get text => null;
+
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: Scaffold(
+    return MultiProvider(
+      providers: [
+        Provider<IPersistenceRepository>(
+          lazy: false,
+          create: (_) => repository,
+          dispose: (_, IPersistenceRepository repository) => repository.close(),
+        ),
+      ],
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        title: 'Flutter Demo',
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+        ),
+        home: Scaffold(
           appBar: AppBar(
             leading: title,
             actions: [
@@ -53,7 +69,7 @@ class MyApp extends StatelessWidget {
             title: "Courses",
           ),
         ),
-      
-    ); //const MyHomePage(title: 'Flutter Demo Home Page'),
+      ), //const MyHomePage(title: 'Flutter Demo Home Page'),
+    );
   }
 }
