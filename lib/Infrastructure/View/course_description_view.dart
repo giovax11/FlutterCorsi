@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
+import 'package:flutterproject/Domain/Aggregate/Courses.dart';
 import 'package:flutterproject/Infrastructure/View/course_image.dart';
 import 'package:flutterproject/Infrastructure/View/course_title.dart';
 import 'package:flutterproject/Infrastructure/View/description_content.dart';
@@ -8,6 +9,9 @@ import 'package:flutterproject/Infrastructure/View/lesson_list.dart';
 import 'action_button.dart';
 
 class CourseDescriptionView extends StatelessWidget {
+  Course course;
+
+  CourseDescriptionView(this.course);
   // Aqui voy a recibir la data del snapshot.data
 
   @override
@@ -25,11 +29,9 @@ class CourseDescriptionView extends StatelessWidget {
 
     return Column(
       children: <Widget>[
-        CourseImage(
-            'https://storage.googleapis.com/cms-storage-bucket/70760bf1e88b184bb1bc.png'),
-        CourseTitle('Curso Profesional de Flutter'),
-        DescriptionContent(
-            'Flutter es el framework de Google para desarrollar interfaces móviles nativas en iOS y Android, basado en los principios de Material Design y Cupertino (iOS) tendrás un look and feel totalmente natural en tus aplicaciones. Desarrolla aplicaciones móviles nativas de alta calidad y mucho más rápido usando Flutter.'),
+        CourseImage(this.course.photo),
+        CourseTitle(this.course.name),
+        DescriptionContent(this.course.description),
         ActionButton('Empezar Curso'),
         lessons_subtitle,
         LessonsList(), // Aqui puedo recibir course.lesson
