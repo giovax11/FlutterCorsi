@@ -48,11 +48,6 @@ class MyApp extends StatelessWidget {
           create: (_) => repository,
           dispose: (_, IPersistenceRepository repository) => repository.close(),
         ),
-        Provider<ServiceInterface>(
-          // create: (_) => MockService()..create(),
-          create: (_) => RecipeService.create(),
-          lazy: false,
-        ),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
