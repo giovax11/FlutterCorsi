@@ -176,20 +176,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.5"
-  dio:
-    dependency: "direct main"
-    description:
-      name: dio
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "4.0.6"
-  equatable:
-    dependency: "direct main"
-    description:
-      name: equatable
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "2.0.5"
   dart_either:
     dependency: transitive
     description:
@@ -204,6 +190,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.2.4"
+  dio:
+    dependency: "direct main"
+    description:
+      name: dio
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "4.0.6"
   drift:
     dependency: transitive
     description:
@@ -218,6 +211,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.7.1"
+  equatable:
+    dependency: "direct main"
+    description:
+      name: equatable
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.0.5"
   fake_async:
     dependency: transitive
     description:
@@ -396,6 +396,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "4.6.0+1"
+  multiple_result:
+    dependency: "direct main"
+    description:
+      name: multiple_result
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.0.0"
   nested:
     dependency: transitive
     description:
@@ -410,14 +417,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.1.0"
-  multiple_result:
-    dependency: "direct main"
-    description:
-      name: multiple_result
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "2.0.0"
-  
   path:
     dependency: transitive
     description:
@@ -558,13 +557,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.3"
-  provider:
-    dependency: transitive
-    description:
-      name: provider
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "6.0.4"
   sky_engine:
     dependency: transitive
     description: flutter
