@@ -102,10 +102,13 @@ Lesson moorLessonToLesson(MoorLessonData lesson) {
   return Lesson(
       idLesson: lesson.id.toString(),
       name: lesson.name,
-      description: lesson.description);
+      description: lesson.description,
+      courseId: lesson.courseId.toString());
 }
 
 MoorLessonCompanion lessonToInsertableMoorLesson(Lesson lesson) {
   return MoorLessonCompanion.insert(
-      name: lesson.name, description: lesson.description ?? '');
+      name: lesson.name,
+      description: lesson.description ?? '',
+      courseId: int.parse(lesson.courseId) ?? 0);
 }
