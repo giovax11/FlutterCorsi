@@ -1,25 +1,26 @@
-import 'package:uuid/uuid.dart';
-
 class Lesson {
   Lesson({
+    required this.idLesson,
     required this.name,
     required this.description,
-    required id,
+    required this.courseId,
   });
-
+  String idLesson;
   String name;
   String description;
-  Uuid id = Uuid();
+  String courseId;
 
   factory Lesson.fromJson(Map<String, dynamic> json) => Lesson(
+        idLesson: json["idlesson"],
         name: json["name"],
         description: json["description"],
-        id: json["id"],
+        courseId: json["courseId"],
       );
 
   Map<String, dynamic> toJson() => {
+        "idlesson": idLesson,
         "name": name,
         "description": description,
-        "id": id,
+        "courseId": courseId,
       };
 }

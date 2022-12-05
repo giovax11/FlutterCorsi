@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutterproject/Domain/entity/lesson.dart';
 import 'package:moor_flutter/moor_flutter.dart';
 
 import '../../../Domain/Aggregate/Courses.dart';
@@ -95,4 +96,16 @@ Insertable<MoorCourseData> courseToInsertableMoorCourse(Course course) {
       name: course.name ?? '',
       description: course.description ?? '',
       photo: course.photo ?? '');
+}
+
+Lesson moorLessonToLesson(MoorLessonData lesson) {
+  return Lesson(
+      idLesson: lesson.id.toString(),
+      name: lesson.name,
+      description: lesson.description);
+}
+
+MoorLessonCompanion lessonToInsertableMoorLesson(Lesson lesson) {
+  return MoorLessonCompanion.insert(
+      name: lesson.name, description: lesson.description ?? '');
 }
