@@ -35,6 +35,9 @@ class _MyHomePageState extends State<MyHomePage> {
         stream: repository.watchAllCourses(),
         builder: (context, AsyncSnapshot<List<Course>> snapshot) {
           final courses = snapshot.data ?? [];
+          //No se si esta haciendo algo
+          courses.forEach((course) => {repository.insertCourse(course)});
+
           return MaterialApp(
             debugShowCheckedModeBanner: false,
             home: Scaffold(
