@@ -52,7 +52,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   if (state is CourseInitial) {
                     return buildLoading();
                   } else if (state is CourseLoading) {
-                    return buildLoading();
+                    return buildLoading2();
                   } else if (state is CourseLoaded) {
                     return buildListCourse(state.courseModel!);
                   } else if (state is CourseError) {
