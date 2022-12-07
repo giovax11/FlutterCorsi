@@ -31,6 +31,11 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  
+  sqflite: ^2.0.0+4
+  path_provider: ^2.0.2
+  synchronized: ^3.0.0
+  sqlbrite: ^2.1.0
 
 
   # The following adds the Cupertino Icons font to your application.
@@ -38,6 +43,9 @@ dependencies:
   cupertino_icons: ^1.0.2
   http: ^0.13.5
   bloc: ^8.1.0
+  moor_flutter: ^4.1.0
+  uuid: ^3.0.6
+  provider: ^6.0.4
   equatable: ^2.0.5
   flutter_bloc: ^8.1.1
   dio: ^4.0.6
@@ -53,6 +61,8 @@ dev_dependencies:
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^2.0.0
+  moor_generator: ^4.4.1
+  build_runner: ^2.1.7
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
