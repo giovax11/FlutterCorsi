@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutterproject/Infrastructure/View/course_card.dart';
 import '../../Aplication/course_event.dart';
 import '../../Aplication/course_bloc.dart';
 import '../../Aplication/course_state.dart';
@@ -86,33 +87,5 @@ Widget buildLoading3() => const Center(
       child: Text("no internet"),
     );
 Widget buildRecipeCard(Course course) {
-  return Card(
-    // 1
-    elevation: 2.0,
-    // 2
-    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
-    // 3
-    child: Padding(
-      padding: const EdgeInsets.all(16.0),
-      // 4
-      child: Column(
-        children: <Widget>[
-          Image.network(course.photo),
-          // 5
-          const SizedBox(
-            height: 14.0,
-          ),
-          // 6
-          Text(
-            course.name,
-            style: const TextStyle(
-              fontSize: 20.0,
-              fontWeight: FontWeight.w700,
-              fontFamily: 'Palatino',
-            ),
-          )
-        ],
-      ),
-    ),
-  );
+  return CourseCard(course);
 }
