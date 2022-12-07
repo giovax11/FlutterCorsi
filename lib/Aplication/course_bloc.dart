@@ -32,7 +32,7 @@ class CourseBloc extends Bloc<CourseEvent, CourseState> {
       if (listc != null) {
         for (var courlis in listc!) {
           event.repository.insertCourse(courlis);
-          print(listc);
+          print(courlis.name);
         }
       }
     });
