@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutterproject/Domain/Repository/peristenceRepository.dart';
 import 'package:flutterproject/Infrastructure/Data/moor/moor_repository.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutterproject/Infrastructure/Repository/controllerCourses.dart';
 import 'package:http/http.dart';
 import 'Domain/Repository/memory_repository.dart';
 import 'Aplication/course_bloc.dart';

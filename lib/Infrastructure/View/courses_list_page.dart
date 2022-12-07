@@ -1,12 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutterproject/Infrastructure/Repository/courserepositoryApi.dart';
 import 'package:flutterproject/Infrastructure/View/course_card.dart';
 import '../../Aplication/course_event.dart';
 import '../../Aplication/course_bloc.dart';
 import '../../Aplication/course_state.dart';
 import '../../Domain/Aggregate/Courses.dart';
-import '../Repository/controllerCourses.dart';
+import '../../Aplication/CoursesService.dart';
+import '';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
@@ -18,7 +20,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  final CourseController controller = CourseController();
+  final CourseService controller = CourseService(RepositoryApi('https://6383f3913fa7acb14fea74f1.mockapi.io/api/Courses'));
   final CourseBloc newsBloc = CourseBloc();
 
   @override
