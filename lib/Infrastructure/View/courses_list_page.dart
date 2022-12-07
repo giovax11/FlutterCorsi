@@ -7,11 +7,12 @@ import '../../Aplication/course_bloc.dart';
 import '../../Aplication/course_state.dart';
 import '../../Domain/Aggregate/Courses.dart';
 import '../../Domain/Repository/peristenceRepository.dart';
+import '../Data/moor/moor_repository.dart';
 import '../Repository/controllerCourses.dart';
 
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-
+  const MyHomePage({super.key, required this.title, required this.repository});
+  final IPersistenceRepository repository;
   final String title;
 
   @override
@@ -21,6 +22,7 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   final CourseController controller = CourseController();
   final CourseBloc newsBloc = CourseBloc();
+  late IPersistenceRepository repository;
 
   @override
   void initState() {
@@ -30,62 +32,62 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    final repository =
+    final repository1 =
         Provider.of<IPersistenceRepository>(context, listen: false);
+    setState(() {
+      newsBloc.add(GetCourseList2(repository1));
+    });
     return StreamBuilder<List<Course>>(
-        stream: repository.watchAllCourses(),
+        stream: repository1.watchAllCourses(),
         builder: (context, AsyncSnapshot<List<Course>> snapshot) {
-          if (snapshot.connectionState == ConnectionState.active) {
-            return MaterialApp(
-              debugShowCheckedModeBanner: false,
-              home: Scaffold(
-                appBar: AppBar(
-                  title: Text('CURSOS'),
-                ),
-                body: Center(
-                  child: BlocProvider(
-                    create: (context) => newsBloc,
-                    child: BlocListener<CourseBloc, CourseState>(
-                      listener: (context, state) {
-                        if (state is CourseError) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text(state.message!),
-                            ),
-                          );
-                        }
-                        if (snapshot.data != null){
-                          final recipes = snapshot.data ?? [];
-                          buildListCourse(recipes);
+          return MaterialApp(
+            debugShowCheckedModeBanner: false,
+            home: Scaffold(
+              appBar: AppBar(
+                title: Text('CURSOS'),
+              ),
+              body: Center(
+                child: BlocProvider(
+                  create: (context) => newsBloc,
+                  child: BlocListener<CourseBloc, CourseState>(
+                    listener: (context, state) {
+                      if (state is CourseError) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text(state.message!),
+                          ),
+                        );
+                      }
+                      final mList = repository1.findAllCourses();
+                      if (mList != null) {
+                        final recipes = snapshot.data ?? [];
+                        buildListCourse(recipes);
+                      }
+                    },
+                    child: BlocBuilder<CourseBloc, CourseState>(
+                      builder: (context, state) {
+                        if (state is CourseInitial) {
+                          return buildLoading();
+                        } else if (state is CourseLoading) {
+                          return buildLoading2();
+                        } else if (state is CourseLoaded) {
+                          return buildListCourse(state.courseModel!);
+                        } else if (state is CourseError) {
+                          return buildLoading();
+                        } else {
+                          return Container();
                         }
                       },
-                      child: BlocBuilder<CourseBloc, CourseState>(
-                        builder: (context, state) {
-                          if (state is CourseInitial) {
-                            return buildLoading();
-                          } else if (state is CourseLoading) {
-                            return buildLoading2();
-                          } else if (state is CourseLoaded) {
-                            return buildListCourse(state.courseModel!);
-                          } else if (state is CourseError) {
-                            return buildLoading();
-                          } else {
-                            return Container();
-                          }
-                        },
-                      ),
                     ),
                   ),
                 ),
               ),
-            );
-          } else {
-            final recipes = snapshot.data ?? [];
-            return buildListCourse(recipes);
-          }
+            ),
+          );
         });
   }
 }
+
 
 Widget buildListCourse(List<Course> courses) {
   return ListView.builder(

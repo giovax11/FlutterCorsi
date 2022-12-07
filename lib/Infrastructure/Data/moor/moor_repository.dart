@@ -11,7 +11,7 @@ class MoorRepository extends IPersistenceRepository {
   // 1
   late CourseDatabase courseDatabase;
   // 2
-  late CourseDao _courseDao;
+  CourseDao? _courseDao;
   // 3
   late LessonDao _lessonDao;
   // 3
@@ -22,7 +22,7 @@ class MoorRepository extends IPersistenceRepository {
   @override
   Future<List<Course>> findAllCourses() {
     // 1
-    return _courseDao.findAllCourses()
+    return _courseDao!.findAllCourses()
         // 2
         .then<List<Course>>(
       (List<MoorCourseData> moorCourses) {
@@ -46,7 +46,7 @@ class MoorRepository extends IPersistenceRepository {
 
   @override
   Stream<List<Course>> watchAllCourses() {
-    courseStream ??= _courseDao.watchAllCourses();
+    courseStream ??= _courseDao!.watchAllCourses();
     return courseStream!;
   }
 
@@ -74,7 +74,7 @@ class MoorRepository extends IPersistenceRepository {
 
   @override
   Future<Course> findCourseById(int id) {
-    return _courseDao
+    return _courseDao!
         .findCourseById(id)
         .then((listOfCourses) => moorCourseToCourse(listOfCourses.first));
   }
@@ -115,7 +115,7 @@ class MoorRepository extends IPersistenceRepository {
       () async {
         // 1
         final id =
-            await _courseDao.insertCourse(courseToInsertableMoorCourse(course));
+            await _courseDao!.insertCourse(courseToInsertableMoorCourse(course));
         if (course.lesson != null) {
           // 2
           course.lesson!.forEach(
@@ -159,7 +159,7 @@ class MoorRepository extends IPersistenceRepository {
   @override
   Future<void> deleteCourse(Course course) {
     if (course.id != null) {
-      _courseDao.deleteCourse(int.parse(course.id!));
+      _courseDao!.deleteCourse(int.parse(course.id!));
     }
     return Future.value();
   }
@@ -194,9 +194,15 @@ class MoorRepository extends IPersistenceRepository {
   @override
   Future init() async {
     // 6
+    print("putaaaa");
     courseDatabase = CourseDatabase();
     // 7
+    
     _courseDao = courseDatabase.courseDao;
+    if (_courseDao!=null) {
+      print("co;ooooo");
+    };
+
     _lessonDao = courseDatabase.lessonDao;
   }
 
