@@ -60,14 +60,11 @@ class _MyHomePageState extends State<MyHomePage> {
                           ),
                         );
                       }
-                      if (snapshot.data != null) {
-                        final recipes = snapshot.data ?? [];
-                        buildListCourse(recipes);
-                      }
+                      
+                      aaaque(repository1);
                     },
                     child: BlocBuilder<CourseBloc, CourseState>(
                       builder: (context, state) {
-                        
                         if (state is CourseInitial) {
                           return buildLoading();
                         } else if (state is CourseLoading) {
@@ -91,6 +88,10 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 }
 
+Future<Widget> aaaque(IPersistenceRepository repository1) async {
+  final recipes = await repository1.findAllCourses();
+  return buildListCourse(recipes);
+}
 
 Widget buildListCourse(List<Course> courses) {
   return ListView.builder(
