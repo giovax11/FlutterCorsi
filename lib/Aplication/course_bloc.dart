@@ -14,6 +14,9 @@ class CourseBloc extends Bloc<CourseEvent, CourseState> {
       try {
         emit(CourseLoading());
         final mList = await apiRepository.getAllCourse();
+        print(mList);
+        mList.forEach((course) => persistenceRepository.insertCourse(course));
+        //print(await persistenceRepository.findAllCourses());
         emit(CourseLoaded(mList));
       } catch (_) {
         emit(CourseError("Fallo en la busqueda de datos"));

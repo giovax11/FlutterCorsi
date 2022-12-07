@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutterproject/Infrastructure/Data/moor/moor_repository.dart';
 import 'package:provider/provider.dart';
 import '../../Aplication/course_event.dart';
 import '../../Aplication/course_bloc.dart';
@@ -35,9 +36,6 @@ class _MyHomePageState extends State<MyHomePage> {
         stream: repository.watchAllCourses(),
         builder: (context, AsyncSnapshot<List<Course>> snapshot) {
           final courses = snapshot.data ?? [];
-          //No se si esta haciendo algo
-          courses.forEach((course) => {repository.insertCourse(course)});
-
           return MaterialApp(
             debugShowCheckedModeBanner: false,
             home: Scaffold(
@@ -57,8 +55,8 @@ class _MyHomePageState extends State<MyHomePage> {
                         );
                       }
                       if (snapshot.data != null) {
-                        final recipes = snapshot.data ?? [];
-                        buildListCourse(recipes);
+                        final courses = snapshot.data ?? [];
+                        buildListCourse(courses);
                       }
                     },
                     child: BlocBuilder<CourseBloc, CourseState>(
