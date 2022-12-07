@@ -40,50 +40,54 @@ class _MyHomePageState extends State<MyHomePage> {
     return StreamBuilder<List<Course>>(
         stream: repository1.watchAllCourses(),
         builder: (context, AsyncSnapshot<List<Course>> snapshot) {
-          return MaterialApp(
-            debugShowCheckedModeBanner: false,
-            home: Scaffold(
-              appBar: AppBar(
-                title: Text('CURSOS'),
-              ),
-              body: Center(
-                child: BlocProvider(
-                  create: (context) => newsBloc,
-                  child: BlocListener<CourseBloc, CourseState>(
-                    listener: (context, state) {
-                      if (state is CourseError) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content: Text(state.message!),
-                          ),
-                        );
-                      }
-                      final mList = repository1.findAllCourses();
-                      if (mList != null) {
-                        final recipes = snapshot.data ?? [];
-                        buildListCourse(recipes);
-                      }
-                    },
-                    child: BlocBuilder<CourseBloc, CourseState>(
-                      builder: (context, state) {
-                        if (state is CourseInitial) {
-                          return buildLoading();
-                        } else if (state is CourseLoading) {
-                          return buildLoading2();
-                        } else if (state is CourseLoaded) {
-                          return buildListCourse(state.courseModel!);
-                        } else if (state is CourseError) {
-                          return buildLoading();
-                        } else {
-                          return Container();
+          if (snapshot.connectionState == ConnectionState.active) {
+            return MaterialApp(
+              debugShowCheckedModeBanner: false,
+              home: Scaffold(
+                appBar: AppBar(
+                  title: Text('CURSOS'),
+                ),
+                body: Center(
+                  child: BlocProvider(
+                    create: (context) => newsBloc,
+                    child: BlocListener<CourseBloc, CourseState>(
+                      listener: (context, state) {
+                        if (state is CourseError) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text(state.message!),
+                            ),
+                          );
+                        }
+                        if (snapshot.data != null){
+                          final recipes = snapshot.data ?? [];
+                          buildListCourse(recipes);
                         }
                       },
+                      child: BlocBuilder<CourseBloc, CourseState>(
+                        builder: (context, state) {
+                          if (state is CourseInitial) {
+                            return buildLoading();
+                          } else if (state is CourseLoading) {
+                            return buildLoading2();
+                          } else if (state is CourseLoaded) {
+                            return buildListCourse(state.courseModel!);
+                          } else if (state is CourseError) {
+                            return buildLoading();
+                          } else {
+                            return Container();
+                          }
+                        },
+                      ),
                     ),
                   ),
                 ),
               ),
-            ),
-          );
+            );
+          } else {
+            final recipes = snapshot.data ?? [];
+            return buildListCourse(recipes);
+          }
         });
   }
 }
