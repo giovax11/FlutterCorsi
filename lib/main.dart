@@ -65,8 +65,9 @@ class MyApp extends StatelessWidget {
               appLogo,
             ],
           ),
-          body: const MyHomePage(
+          body:  MyHomePage(
             title: "Courses",
+            repository: repository,
           ),
         ),
       ), //const MyHomePage(title: 'Flutter Demo Home Page'),
