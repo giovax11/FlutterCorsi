@@ -35,10 +35,6 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     final repository1 =
         Provider.of<IPersistenceRepository>(context, listen: false);
-    setState(() {
-      newsBloc.add(GetCourseList2(repository1));
-      print("que pasa");
-    });
     return StreamBuilder<List<Course>>(
         stream: repository1.watchAllCourses(),
         builder: (context, AsyncSnapshot<List<Course>> snapshot) {
@@ -60,8 +56,8 @@ class _MyHomePageState extends State<MyHomePage> {
                           ),
                         );
                       }
-                      
-                      aaaque(repository1);
+
+                      //aaaque(repository1);
                     },
                     child: BlocBuilder<CourseBloc, CourseState>(
                       builder: (context, state) {
@@ -70,7 +66,14 @@ class _MyHomePageState extends State<MyHomePage> {
                         } else if (state is CourseLoading) {
                           return buildLoading2();
                         } else if (state is CourseLoaded) {
-                          newsBloc.add(GetCourseList2(repository1));
+                          final mlist = state.courseModel;
+                          if (mlist != null) {
+                            for (var courlis in mlist) {
+                              print("antes del caos");
+                              repository1.insertCourse(courlis);
+                              print("diosito si tenia fe");
+                            }
+                          }
                           return buildListCourse(state.courseModel!);
                         } else if (state is CourseError) {
                           return buildLoading();

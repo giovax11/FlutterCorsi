@@ -31,7 +31,8 @@ class CourseBloc extends Bloc<CourseEvent, CourseState> {
     on<GetCourseList2>((event, emit) {
       if (listc != null) {
         for (var courlis in listc!) {
-          event.repository.insertCourse(courlis);
+          //event.repository.insertCourse(courlis);
+          //print(event.repository.findCourseById(1));
           print(courlis.name);
         }
       }
