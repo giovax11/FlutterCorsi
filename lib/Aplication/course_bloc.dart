@@ -29,6 +29,10 @@ class CourseBloc extends Bloc<CourseEvent, CourseState> {
       }
     });
     on<GetCourseList2>((event, emit) async {
+      final listA = await event.repository.findAllCourses();
+      listA.forEach((course) {
+        event.repository.deleteCourse(course);
+      });
       if (listc != null) {
         listc?.forEach((course) {
           event.repository.insertCourse(course);

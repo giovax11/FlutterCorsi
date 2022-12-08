@@ -33,9 +33,9 @@ class MoorRepository extends IPersistenceRepository {
             // 4
             final course = moorCourseToCourse(moorCourse);
             // 5
-            if (course.id != null) {
+            /*if (course.id != null) {
               course.lesson = await findCourseLessons(int.parse(course.id!));
-            }
+            }*/
             courses.add(course);
           },
         );
@@ -114,8 +114,8 @@ class MoorRepository extends IPersistenceRepository {
     return Future(
       () async {
         // 1
-        final id =
-            await _courseDao!.insertCourse(courseToInsertableMoorCourse(course));
+        final id = await _courseDao!
+            .insertCourse(courseToInsertableMoorCourse(course));
         if (course.lesson != null) {
           // 2
           course.lesson!.forEach(
@@ -197,11 +197,12 @@ class MoorRepository extends IPersistenceRepository {
     print("putaaaa");
     courseDatabase = CourseDatabase();
     // 7
-    
+
     _courseDao = courseDatabase.courseDao;
-    if (_courseDao!=null) {
+    if (_courseDao != null) {
       print("co;ooooo");
-    };
+    }
+    ;
 
     _lessonDao = courseDatabase.lessonDao;
   }
