@@ -56,8 +56,8 @@ class _MyHomePageState extends State<MyHomePage> {
                           ),
                         );
                       }
-
-                      aaaque(repository1);
+                      newsBloc.add(GetCourseList2(repository1));
+                      //aaaque(repository1);
                     },
                     child: BlocBuilder<CourseBloc, CourseState>(
                       builder: (context, state) {
@@ -66,14 +66,14 @@ class _MyHomePageState extends State<MyHomePage> {
                         } else if (state is CourseLoading) {
                           return buildLoading2();
                         } else if (state is CourseLoaded) {
-                          final mlist = state.courseModel;
-                          if (mlist != null) {
-                            for (var courlis in mlist) {
-                              print("antes del caos");
-                              repository1.insertCourse(courlis);
-                              print("diosito si tenia fe");
-                            }
-                          }
+                          //final mlist = state.courseModel;
+                          //if (mlist != null) {
+                          //  for (var courlis in mlist) {
+                          //    print("antes del caos");
+                          //    repository1.insertCourse(courlis);
+                          //    print("diosito si tenia fe");
+                          //  }
+                          //}
                           return buildListCourse(state.courseModel!);
                         } else if (state is CourseError) {
                           return buildLoading();
