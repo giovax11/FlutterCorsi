@@ -115,11 +115,12 @@ class MoorCourseCompanion extends UpdateCompanion<MoorCourseData> {
     this.photo = const Value.absent(),
   });
   MoorCourseCompanion.insert({
-    this.id = const Value.absent(),
+    required int id,
     required String name,
     required String description,
     required String photo,
-  })  : name = Value(name),
+  })  : id = Value(id),
+        name = Value(name),
         description = Value(description),
         photo = Value(photo);
   static Insertable<MoorCourseData> custom({
@@ -189,9 +190,7 @@ class $MoorCourseTable extends MoorCourse
   @override
   late final GeneratedColumn<int?> id = GeneratedColumn<int?>(
       'id', aliasedName, false,
-      type: const IntType(),
-      requiredDuringInsert: false,
-      defaultConstraints: 'PRIMARY KEY AUTOINCREMENT');
+      type: const IntType(), requiredDuringInsert: true);
   final VerificationMeta _nameMeta = const VerificationMeta('name');
   @override
   late final GeneratedColumn<String?> name = GeneratedColumn<String?>(
@@ -221,6 +220,8 @@ class $MoorCourseTable extends MoorCourse
     final data = instance.toColumns(true);
     if (data.containsKey('id')) {
       context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    } else if (isInserting) {
+      context.missing(_idMeta);
     }
     if (data.containsKey('name')) {
       context.handle(
@@ -246,7 +247,7 @@ class $MoorCourseTable extends MoorCourse
   }
 
   @override
-  Set<GeneratedColumn> get $primaryKey => {id};
+  Set<GeneratedColumn> get $primaryKey => <GeneratedColumn>{};
   @override
   MoorCourseData map(Map<String, dynamic> data, {String? tablePrefix}) {
     return MoorCourseData.fromData(data, attachedDatabase,
@@ -367,11 +368,12 @@ class MoorLessonCompanion extends UpdateCompanion<MoorLessonData> {
     this.description = const Value.absent(),
   });
   MoorLessonCompanion.insert({
-    this.id = const Value.absent(),
+    required int id,
     required int courseId,
     required String name,
     required String description,
-  })  : courseId = Value(courseId),
+  })  : id = Value(id),
+        courseId = Value(courseId),
         name = Value(name),
         description = Value(description);
   static Insertable<MoorLessonData> custom({
@@ -441,9 +443,7 @@ class $MoorLessonTable extends MoorLesson
   @override
   late final GeneratedColumn<int?> id = GeneratedColumn<int?>(
       'id', aliasedName, false,
-      type: const IntType(),
-      requiredDuringInsert: false,
-      defaultConstraints: 'PRIMARY KEY AUTOINCREMENT');
+      type: const IntType(), requiredDuringInsert: true);
   final VerificationMeta _courseIdMeta = const VerificationMeta('courseId');
   @override
   late final GeneratedColumn<int?> courseId = GeneratedColumn<int?>(
@@ -473,6 +473,8 @@ class $MoorLessonTable extends MoorLesson
     final data = instance.toColumns(true);
     if (data.containsKey('id')) {
       context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    } else if (isInserting) {
+      context.missing(_idMeta);
     }
     if (data.containsKey('course_id')) {
       context.handle(_courseIdMeta,
@@ -498,7 +500,7 @@ class $MoorLessonTable extends MoorLesson
   }
 
   @override
-  Set<GeneratedColumn> get $primaryKey => {id};
+  Set<GeneratedColumn> get $primaryKey => <GeneratedColumn>{};
   @override
   MoorLessonData map(Map<String, dynamic> data, {String? tablePrefix}) {
     return MoorLessonData.fromData(data, attachedDatabase,

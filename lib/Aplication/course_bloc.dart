@@ -30,11 +30,14 @@ class CourseBloc extends Bloc<CourseEvent, CourseState> {
     });
     on<GetCourseList2>((event, emit) async {
       if (listc != null) {
-        for (var courlis in listc!) {
+        listc?.forEach((course) {
+          event.repository.insertCourse(course);
+        });
+        /*for (var courlis in listc!) {
           event.repository.insertCourse(courlis);
           //print(event.repository.findCourseById(1));
           print(courlis.name);
-        }
+        }*/
       }
       final listC = await event.repository.findAllCourses();
       emit(CourseLoaded(listC));

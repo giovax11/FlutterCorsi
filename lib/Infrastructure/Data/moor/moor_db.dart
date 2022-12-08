@@ -10,7 +10,7 @@ part 'moor_db.g.dart';
 // 1
 class MoorCourse extends Table {
   // 2
-  IntColumn get id => integer().autoIncrement()();
+  IntColumn get id => integer()();
   // 3
   TextColumn get name => text()();
   TextColumn get description => text()();
@@ -18,7 +18,7 @@ class MoorCourse extends Table {
 }
 
 class MoorLesson extends Table {
-  IntColumn get id => integer().autoIncrement()();
+  IntColumn get id => integer()();
   IntColumn get courseId => integer()();
   TextColumn get name => text()();
   TextColumn get description => text()();
@@ -34,7 +34,7 @@ class CourseDatabase extends _$CourseDatabase {
             path: 'courses.sqlite', logStatements: true));
   // 4
   @override
-  int get schemaVersion => 1;
+  int get schemaVersion => 3;
 }
 
 // 1
@@ -117,6 +117,7 @@ Course moorCourseToCourse(MoorCourseData course) {
 
 Insertable<MoorCourseData> courseToInsertableMoorCourse(Course course) {
   return MoorCourseCompanion.insert(
+      id: int.parse(course.id),
       name: course.name ?? '',
       description: course.description ?? '',
       photo: course.photo ?? '');
@@ -132,7 +133,7 @@ Lesson moorLessonToLesson(MoorLessonData lesson) {
 
 MoorLessonCompanion lessonToInsertableMoorLesson(Lesson lesson) {
   return MoorLessonCompanion.insert(
-      //id: int.parse(lesson.idLesson),
+      id: int.parse(lesson.idLesson),
       name: lesson.name,
       description: lesson.description ?? '',
       courseId: int.parse(lesson.courseId) ?? 0);

@@ -50,13 +50,14 @@ class _MyHomePageState extends State<MyHomePage> {
                   child: BlocListener<CourseBloc, CourseState>(
                     listener: (context, state) {
                       if (state is CourseError) {
+                        newsBloc.add(GetCourseList2(repository1));
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
                             content: Text(state.message!),
                           ),
                         );
                       }
-                      newsBloc.add(GetCourseList2(repository1));
+
                       //aaaque(repository1);
                     },
                     child: BlocBuilder<CourseBloc, CourseState>(
