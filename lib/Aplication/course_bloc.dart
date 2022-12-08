@@ -26,9 +26,6 @@ class CourseBloc extends Bloc<CourseEvent, CourseState> {
         listc?.forEach((course) {
           event.repository.insertCourse(course);
         });
-        //for (var courlis in mList) {
-        //  event.repository.insertCourse(courlis);
-        //}
         emit(CourseLoaded(mList));
       } catch (_) {
         emit(CourseError("Fallo en la busqueda de datos"));
