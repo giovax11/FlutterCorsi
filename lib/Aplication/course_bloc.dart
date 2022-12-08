@@ -16,6 +16,7 @@ class CourseBloc extends Bloc<CourseEvent, CourseState> {
         emit(CourseLoading());
         final listOldCourses = await event.repository.findAllCourses();
         listc = listOldCourses;
+        print(listc);
         listc?.forEach((course) {
           event.repository.deleteCourseLessons(int.parse(course.id));
           event.repository.deleteCourse(course);
