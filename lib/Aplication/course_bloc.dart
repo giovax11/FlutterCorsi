@@ -14,8 +14,17 @@ class CourseBloc extends Bloc<CourseEvent, CourseState> {
     on<GetCourseList>((event, emit) async {
       try {
         emit(CourseLoading());
+        final listOldCourses = await event.repository.findAllCourses();
+        listc = listOldCourses;
+        listc?.forEach((course) {
+          event.repository.deleteCourseLessons(int.parse(course.id));
+          event.repository.deleteCourse(course);
+        });
         final mList = await apiRepository.getAllCourse();
         listc = mList;
+        listc?.forEach((course) {
+          event.repository.insertCourse(course);
+        });
         //for (var courlis in mList) {
         //  event.repository.insertCourse(courlis);
         //}
@@ -29,11 +38,11 @@ class CourseBloc extends Bloc<CourseEvent, CourseState> {
       }
     });
     on<GetCourseList2>((event, emit) async {
-      final listA = await event.repository.findAllCourses();
+      /*final listA = await event.repository.findAllCourses();
       listA.forEach((course) {
         event.repository.deleteCourse(course);
-      });
-      if (listc != null) {
+      });*/
+      /*if (listc != null) {
         listc?.forEach((course) {
           event.repository.insertCourse(course);
         });
@@ -42,7 +51,7 @@ class CourseBloc extends Bloc<CourseEvent, CourseState> {
           //print(event.repository.findCourseById(1));
           print(courlis.name);
         }*/
-      }
+      }*/
       final listC = await event.repository.findAllCourses();
       emit(CourseLoaded(listC));
     });

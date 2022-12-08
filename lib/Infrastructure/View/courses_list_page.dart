@@ -27,7 +27,8 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   void initState() {
-    newsBloc.add(GetCourseList());
+    newsBloc.add(GetCourseList(
+        Provider.of<IPersistenceRepository>(context, listen: false)));
     super.initState();
   }
 

@@ -33,9 +33,9 @@ class MoorRepository extends IPersistenceRepository {
             // 4
             final course = moorCourseToCourse(moorCourse);
             // 5
-            /*if (course.id != null) {
+            if (course.id != null) {
               course.lesson = await findCourseLessons(int.parse(course.id!));
-            }*/
+            }
             courses.add(course);
           },
         );
