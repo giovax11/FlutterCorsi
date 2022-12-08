@@ -18,7 +18,7 @@ class MoorCourse extends Table {
 }
 
 class MoorLesson extends Table {
-  IntColumn get id => integer()();
+  IntColumn get id => integer().autoIncrement()();
   IntColumn get courseId => integer()();
   TextColumn get name => text()();
   TextColumn get description => text()();
@@ -132,7 +132,7 @@ Lesson moorLessonToLesson(MoorLessonData lesson) {
 
 MoorLessonCompanion lessonToInsertableMoorLesson(Lesson lesson) {
   return MoorLessonCompanion.insert(
-      id: int.parse(lesson.idLesson),
+      //id: int.parse(lesson.idLesson),
       name: lesson.name,
       description: lesson.description ?? '',
       courseId: int.parse(lesson.courseId) ?? 0);
